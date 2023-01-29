@@ -1,0 +1,45 @@
+﻿
+@{
+}
+
+<html>
+<head>
+    <link rel="shortcut icon" href="favicon.ico">
+</head>
+<body>
+    <h1>Knjizara - Naslovna strana</h1>
+    <hr>
+    <form action='/Knjizara/Dodaj' method='post'>
+        <table class="table">
+            <tr>
+                <th colspan='2'>Dodaj novu knjigu</th>
+            </tr>
+            <tr>
+                <td>Naziv:</td>
+                <td><input class="form-control" type='text' name='naziv' required></td>
+            </tr>
+            <tr>
+                <td>Cena:</td>
+                <td><input class="form-control" type='number' placeholder='0.00' name='cena' min='0' step='0.01' pattern='^\d+(?:\.\d{1,2})?$'></td>
+            </tr>
+            <tr>
+                <td>Zanr:</td>
+                <td>
+                    <select class="form-select" name='zanr'>
+                        <option>Nauka</option>
+                        <option>Komedija</option>
+                        <option>Horor</option>
+                    </select>
+                </td>
+            </tr>
+            <tr style='text-align: center;'>
+                <td colspan='2'><input type='submit' name='Dodaj' value='Dodaj' class="btn btn-success"></td>
+            </tr>
+        </table>
+    </form>
+    <div class='linkovi'>
+        <div class="btn btn-info"><a class="nedekorisan" href='/Knjizara/IzlistajSve'>Prikaz svih knjiga</a></div>
+        <div class="btn btn-info"><a class="nedekorisan" href='/Knjizara/IzlistajObrisane'>Prikaz obrisanih knjiga</a></div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,54 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+h1 {
+    text-align: center;
+}
+
+.linkovi {
+    width: 50%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+}
+
+.unos {
+    width: 100%;
+}
+
+.unos-cena {
+    text-align: right;
+}
+
+.nedekorisan {
+    text-decoration: none;
+    color: white;
+}
+
+.nedekorisan:hover {
+    color: lightgray;
+}
+
+.sortiranje {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 30%;
+    margin: 0 auto;
+}
