@@ -1,12 +1,9 @@
 ﻿
 @{
+    Layout = "_Layout";
 }
 
-<html>
-<head>
-    <link rel="icon" href="favicon-32x32.png">
-</head>
-<body>
+<div>
     <h1>Knjizara - Naslovna strana</h1>
     <hr>
     <form action='/Knjizara/Dodaj' method='post'>
@@ -41,5 +38,16 @@
         <div class="btn btn-info"><a class="nedekorisan" href='/Knjizara/IzlistajSve'>Prikaz svih knjiga</a></div>
         <div class="btn btn-info"><a class="nedekorisan" href='/Knjizara/IzlistajObrisane'>Prikaz obrisanih knjiga</a></div>
     </div>
-</body>
-</html>
+    <!--script type="text/javascript">
+        var lista = @Html.Raw(Json.Serialize(@ViewBag.lista));
+        const naslovi = [];
+        for (var i = 0; i < lista.length; i++) {
+            naslovi.push(lista[i]);
+        }
+        function proveraNaslova(naziv) {
+            if (naziv in naslovi) {
+                alert("Knjiga vec postoji");
+            }
+        }
+    </script-->
+</div>

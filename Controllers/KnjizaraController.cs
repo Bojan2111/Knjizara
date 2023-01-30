@@ -8,11 +8,12 @@ namespace Knjizara.Controllers
     public class KnjizaraController : Controller
     {
         public static List<KnjigaModel> knjige = new List<KnjigaModel>();
-        //public static List<KnjigaModel> obrisaneKnjige = new List<KnjigaModel>();
-        //public static int brojac = 0;
+        private static List<string> naslovi = new List<string>();
 
         public IActionResult Index()
         {
+
+            ViewBag.lista = naslovi;
             return View();
         }
 
@@ -23,12 +24,12 @@ namespace Knjizara.Controllers
             {
                 if (naziv == k.Naziv)
                 {
-                    ViewBag.naslov = naziv;
-                    return RedirectToAction("KnjigaVecPostoji");
+                    return View("KnjigaVecPostoji", k);
                 }
             }
             KnjigaModel knjiga = new KnjigaModel();
             knjiga.Naziv = naziv;
+            naslovi.Add(naziv);
             knjiga.Cena = cena;
             knjiga.Zanr = zanr;
             knjiga.Id = knjige.Count + 1;

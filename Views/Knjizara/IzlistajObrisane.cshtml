@@ -1,12 +1,8 @@
 ﻿@model List<KnjigaModel>
 @{
+    Layout = "_Layout";
 }
-@using Knjizara.Controllers;
-<html>
-<head>
-    <link rel="icon" href="favicon-32x32.png">
-</head>
-<body>
+<div>
     <h1>Prikaz obrisanih knjiga</h1>
     <hr>
     <table class="table table-hover">
@@ -44,5 +40,4 @@
         </form>
         <div class='mt-4 btn btn-primary'><a class="nedekorisan" href='/Knjizara/Index'>Pocetna stranica</a></div>
     </div>
-</body>
-</html>
+</div>

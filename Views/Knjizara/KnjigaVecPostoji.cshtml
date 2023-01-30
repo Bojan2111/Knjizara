@@ -1,15 +1,12 @@
 ﻿
+@model Knjizara.Models.KnjigaModel
 @{
+    Layout = "_Layout";
 }
-<html>
-<head>
-    <link rel="icon" href="favicon-32x32.png">
-</head>
-<body>
+<div>
     <h1>Greska - Knjiga vec postoji</h1>
-    <h2 class="text-center">Knjiga @ViewBag.naslov vec postoji. Vratite se na pocetnu stranicu i pokusajte ponovo</h2>
+    <h2 class="text-center">Knjiga <em>"@Model.Naziv"</em> vec postoji.<br />Vratite se na pocetnu stranicu i pokusajte ponovo</h2>
     <div class="sortiranje">
         <div class='mt-4 btn btn-primary'><a class="nedekorisan" href='/Knjizara/Index'>Pocetna stranica</a></div>
     </div>
-</body>
-</html>
+</div>
