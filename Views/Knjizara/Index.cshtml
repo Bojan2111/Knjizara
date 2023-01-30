@@ -43,33 +43,13 @@
         function proveraNaslova() {
             let knjige = @Html.Raw(Json.Serialize(Model));
             let naslov = document.getElementById("naziv").value;
-            //let postoji = knjige(k => k.Naziv === naslov);
             for (var i = 0; i < knjige.length; i++) {
-                //naslovi.push(lista[i]);
                 if (knjige[i].naziv === naslov && !knjige[i].izbrisana) {
                     alert("Knjiga vec postoji");
                     return false;
                 }
-                //console.log(knjige[i]);
             }
-            //if (knjige.length == 3){
-            //    alert("samo da ne ucitam stranicu")
-            //    return false;
-            //}
             return true;
         }
-        //function proveraNaslova() {
-        //    let lista = @Html.Raw(Json.Serialize(@ViewBag.lista));
-        //    let naslov = document.getElementById("naziv").value;
-        //    //const naslovi = [];
-        //    for (var i = 0; i < lista.length; i++) {
-        //        //naslovi.push(lista[i]);
-        //        if (naslov == lista[i]) {
-        //            alert("Knjiga vec postoji");
-        //            return false;
-        //        }
-        //    }
-        //    return true;
-        //}
     </script>
 </div>
