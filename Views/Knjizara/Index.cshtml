@@ -1,4 +1,5 @@
 ﻿
+@model List<KnjigaModel>
 @{
     Layout = "_Layout";
 }
@@ -13,7 +14,7 @@
             </tr>
             <tr>
                 <td>Naziv:</td>
-                <td><input class="form-control" type='text' name='naziv' required></td>
+                <td><input id="naziv" class="form-control" type='text' name='naziv' required></td>
             </tr>
             <tr>
                 <td>Cena:</td>
@@ -30,7 +31,7 @@
                 </td>
             </tr>
             <tr style='text-align: center;'>
-                <td colspan='2'><input type='submit' name='Dodaj' value='Dodaj' class="btn btn-success"></td>
+                <td colspan='2'><input type='submit' name='Dodaj' value='Dodaj' class="btn btn-success" onclick="return proveraNaslova()"></td>
             </tr>
         </table>
     </form>
@@ -38,16 +39,37 @@
         <div class="btn btn-info"><a class="nedekorisan" href='/Knjizara/IzlistajSve'>Prikaz svih knjiga</a></div>
         <div class="btn btn-info"><a class="nedekorisan" href='/Knjizara/IzlistajObrisane'>Prikaz obrisanih knjiga</a></div>
     </div>
-    <!--script type="text/javascript">
-        var lista = @Html.Raw(Json.Serialize(@ViewBag.lista));
-        const naslovi = [];
-        for (var i = 0; i < lista.length; i++) {
-            naslovi.push(lista[i]);
-        }
-        function proveraNaslova(naziv) {
-            if (naziv in naslovi) {
-                alert("Knjiga vec postoji");
+    <script type="text/javascript">
+        function proveraNaslova() {
+            let knjige = @Html.Raw(Json.Serialize(Model));
+            let naslov = document.getElementById("naziv").value;
+            //let postoji = knjige(k => k.Naziv === naslov);
+            for (var i = 0; i < knjige.length; i++) {
+                //naslovi.push(lista[i]);
+                if (knjige[i].naziv === naslov && !knjige[i].izbrisana) {
+                    alert("Knjiga vec postoji");
+                    return false;
+                }
+                //console.log(knjige[i]);
             }
+            //if (knjige.length == 3){
+            //    alert("samo da ne ucitam stranicu")
+            //    return false;
+            //}
+            return true;
         }
-    </script-->
+        //function proveraNaslova() {
+        //    let lista = @Html.Raw(Json.Serialize(@ViewBag.lista));
+        //    let naslov = document.getElementById("naziv").value;
+        //    //const naslovi = [];
+        //    for (var i = 0; i < lista.length; i++) {
+        //        //naslovi.push(lista[i]);
+        //        if (naslov == lista[i]) {
+        //            alert("Knjiga vec postoji");
+        //            return false;
+        //        }
+        //    }
+        //    return true;
+        //}
+    </script>
 </div>

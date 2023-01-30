@@ -8,28 +8,27 @@ namespace Knjizara.Controllers
     public class KnjizaraController : Controller
     {
         public static List<KnjigaModel> knjige = new List<KnjigaModel>();
-        private static List<string> naslovi = new List<string>();
+        //private static List<string> naslovi = new List<string>();
 
         public IActionResult Index()
         {
-
-            ViewBag.lista = naslovi;
-            return View();
+            //ViewBag.lista = naslovi;
+            return View(knjige);
         }
 
         [HttpPost]
         public IActionResult Dodaj(string naziv, double cena, string zanr)
         {
-            foreach (KnjigaModel k in knjige)
-            {
-                if (naziv == k.Naziv)
-                {
-                    return View("KnjigaVecPostoji", k);
-                }
-            }
+            //foreach (KnjigaModel k in knjige)
+            //{
+            //    if (naziv == k.Naziv)
+            //    {
+            //        return View("KnjigaVecPostoji", k);
+            //    }
+            //}
             KnjigaModel knjiga = new KnjigaModel();
             knjiga.Naziv = naziv;
-            naslovi.Add(naziv);
+            //naslovi.Add(naziv);
             knjiga.Cena = cena;
             knjiga.Zanr = zanr;
             knjiga.Id = knjige.Count + 1;
