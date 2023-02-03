@@ -1,5 +1,5 @@
 ﻿
-@model List<KnjigaModel>
+@model Knjizara.ViewModels.KnjigaZanrViewModel
 @{
     Layout = "_Layout";
 }
@@ -14,7 +14,13 @@
             </tr>
             <tr>
                 <td>Naziv:</td>
-                <td><input id="naziv" class="form-control" type='text' name='naziv' required></td>
+                <td>
+                    <input id="naziv" class="form-control" type='text' name='naziv' required>
+                    @if (TempData["Poruka"] != null)
+                    {
+                        <p class="alert-danger">@TempData["Poruka"]</p>
+                    }
+                </td>
             </tr>
             <tr>
                 <td>Cena:</td>
@@ -23,15 +29,16 @@
             <tr>
                 <td>Zanr:</td>
                 <td>
-                    <select class="form-select" name='zanr'>
-                        <option>Nauka</option>
-                        <option>Komedija</option>
-                        <option>Horor</option>
+                    <select class="form-select" name='idZanra'>
+                        @foreach (ZanrModel z in Model.Zanrovi)
+                        {
+                            <option value="@z.Id">@z.NazivZanra</option>
+                        }
                     </select>
                 </td>
             </tr>
             <tr style='text-align: center;'>
-                <td colspan='2'><input type='submit' name='Dodaj' value='Dodaj' class="btn btn-success" onclick="return proveraNaslova()"></td>
+                <td colspan='2'><input type='submit' name='Dodaj' value='Dodaj' class="btn btn-success"></td>
             </tr>
         </table>
     </form>
@@ -39,7 +46,12 @@
         <div class="btn btn-info"><a class="nedekorisan" href='/Knjizara/IzlistajSve'>Prikaz svih knjiga</a></div>
         <div class="btn btn-info"><a class="nedekorisan" href='/Knjizara/IzlistajObrisane'>Prikaz obrisanih knjiga</a></div>
     </div>
-    <script type="text/javascript">
+    <div class='zanr-linkovi'>
+        <div class="btn btn-dark"><a class="nedekorisan" href='/Zanr/Index'>Dodaj novi zanr</a></div>
+        <div class="btn btn-dark"><a class="nedekorisan" href='/Zanr/IzlistajSve'>Prikaz zanrova</a></div>
+    </div>
+    <!--  Namerno zakomentarisano kao licni podsetnik  -->
+    <!--script type="text/javascript">
         function proveraNaslova() {
             let knjige = @Html.Raw(Json.Serialize(Model));
             let naslov = document.getElementById("naziv").value;
@@ -51,5 +63,5 @@
             }
             return true;
         }
-    </script>
+    </script-->
 </div>

@@ -1,5 +1,6 @@
 html {
   font-size: 14px;
+  position: absolute;
 }
 
 @media (min-width: 768px) {
@@ -26,6 +27,36 @@ h1 {
     margin: 0 auto;
     display: flex;
     justify-content: space-between;
+}
+
+.zanr-linkovi {
+    width: 50%;
+    margin: 20px auto;
+    display: flex;
+    justify-content: space-around;
+}
+
+#fade-to-transparent {
+    background-color: white;
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 1rem;
+    width: 30rem;
+    height: 10rem;
+    text-align: center;
+    animation: fadeOut 5s forwards;
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
 }
 
 .unos {

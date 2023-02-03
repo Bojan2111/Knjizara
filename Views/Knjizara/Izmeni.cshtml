@@ -1,0 +1,51 @@
+﻿@model Knjizara.ViewModels.KnjigaZanrViewModel
+@{
+    Layout = "_Layout";
+}
+<div>
+    <form action="Izmeni" method="post">
+        <input id="Knjiga_Id" name="Knjiga.Id" type="hidden" value="@Model.Knjiga.Id">
+        <table class="table">
+            <tr>
+                <th colspan='2'>
+                    Izmeni knjigu
+                </th>
+            </tr>
+            <tr>
+                <td>Naslov:</td>
+                <td>
+                    @Html.TextBoxFor(m => m.Knjiga.Naziv)
+                </td>
+            </tr>
+            <tr>
+                <td>Cena:</td>
+                <td>
+                    @Html.TextBoxFor(m => m.Knjiga.Cena)
+                </td>
+            </tr>
+            <tr>
+                <td>Zanr:</td>
+                <td>
+                    <select class="form-control" name='idZanra'>
+                        @foreach (ZanrModel z in Model.Zanrovi)
+                        {
+                            if (z.Id == Model.Knjiga.Zanr.Id)
+                            {
+                                <option value="@z.Id" selected>@z.NazivZanra</option>
+                            }
+                            else
+                            {
+                                <option value="@z.Id">@z.NazivZanra</option>
+                            }
+                        }
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td colspan='2' align='right'>
+                    <input type='submit' value='Izmeni' />
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>

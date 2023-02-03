@@ -2,42 +2,67 @@
 using Knjizara.Models;
 using System.Runtime.CompilerServices;
 using System;
+using Knjizara.ViewModels;
+using System.Reflection;
 
 namespace Knjizara.Controllers
 {
     public class KnjizaraController : Controller
     {
-        public static List<KnjigaModel> knjige = new List<KnjigaModel>();
+        public static KnjizaraModel knjizara;
+
+        static KnjizaraController()
+        {
+            knjizara = new KnjizaraModel(1, "Eci Peci Pec");
+            knjizara.Zanrovi = new List<ZanrModel>() { 
+                new ZanrModel(1, "Sci-Fi"),
+                new ZanrModel(2, "Komedija"),
+                new ZanrModel(3, "Horor")
+            };
+            knjizara.BrojacZanrova = 4;
+        }
 
         public IActionResult Index()
         {
-            return View(knjige);
+            KnjigaZanrViewModel kzvm = new KnjigaZanrViewModel
+            {
+                Knjiga = new KnjigaModel(),
+                Zanrovi = knjizara.Zanrovi
+            };
+            return View(kzvm);
         }
 
         [HttpPost]
-        public IActionResult Dodaj(string naziv, double cena, string zanr)
+        public IActionResult Dodaj(KnjigaModel knjiga, int idZanra)
         {
-            KnjigaModel knjiga = new KnjigaModel();
-            knjiga.Naziv = naziv;
-            knjiga.Cena = cena;
-            knjiga.Zanr = zanr;
-            knjiga.Id = knjige.Count + 1;
-            knjige.Add(knjiga);
+            foreach (KnjigaModel k in knjizara.Knjige)
+            {
+                if (k.Naziv == knjiga.Naziv && !k.Izbrisana)
+                {
+                    TempData["Poruka"] = $"Knjiga '{knjiga.Naziv}' vec postoji";
+                    return RedirectToAction("Index");
+                }
+            }
+            knjiga.Zanr = knjizara.Zanrovi.FirstOrDefault(x => x.Id.Equals(idZanra));
+
+            knjiga.Id = knjizara.BrojacKnjiga;
+            knjizara.BrojacKnjiga += 1;
+            knjizara.Knjige.Add(knjiga);
             return RedirectToAction("IzlistajSve");
         }
 
         public IActionResult IzlistajSve()
         {
-            return View(knjige);
+            return View(knjizara.Knjige);
         }
         public IActionResult IzlistajObrisane()
         {
-            return View(knjige);
+            return View(knjizara.Knjige);
         }
 
         public IActionResult Obrisi(int id)
         {
-            foreach (KnjigaModel k in knjige)
+            foreach (KnjigaModel k in knjizara.Knjige)
             {
                 if (k.Id == id)
                 {
@@ -54,11 +79,11 @@ namespace Knjizara.Controllers
 
             if (tipListe == "sve")
             {
-                sortiraneKnjige = knjige.FindAll(k => k.Izbrisana == false);
+                sortiraneKnjige = knjizara.Knjige.FindAll(k => k.Izbrisana == false);
             }
             else
             {
-                sortiraneKnjige = knjige.FindAll(k => k.Izbrisana == true);
+                sortiraneKnjige = knjizara.Knjige.FindAll(k => k.Izbrisana == true);
             }
 
             switch (nacin)
@@ -85,6 +110,24 @@ namespace Knjizara.Controllers
             {
                 return View("IzlistajObrisane", sortiraneKnjige);
             }
+        }
+        public IActionResult Izmeni(int id)
+        {
+            KnjigaZanrViewModel kzvm = new KnjigaZanrViewModel
+            {
+                Knjiga = knjizara.Knjige.FirstOrDefault(k => k.Id == id),
+                Zanrovi = knjizara.Zanrovi
+            };
+            return View(kzvm);
+        }
+
+        [HttpPost]
+        public IActionResult Izmeni(KnjigaModel knjiga, int idZanra)
+        {
+            int idx = knjizara.Knjige.FindIndex(x => x.Id == knjiga.Id);
+            knjiga.Zanr = knjizara.Zanrovi.FirstOrDefault(y => y.Id == idZanra);
+            knjizara.Knjige[idx] = knjiga;
+            return RedirectToAction("IzlistajSve");
         }
     }
 }
