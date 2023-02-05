@@ -11,18 +11,17 @@
             <th>Naziv</th>
             <th>Cena</th>
             <th>Zanr</th>
+            <th></th>
         </tr>
         @foreach (var k in Model)
         {
-            @if (k.Izbrisana)
-            {
-                <tr>
-                    <td>@k.Id</td>
-                    <td>@k.Naziv</td>
-                    <td>@k.Cena</td>
-                    <td>@k.Zanr.NazivZanra</td>
-                </tr>
-            }
+            <tr>
+                <td>@k.Id</td>
+                <td>@k.Naziv</td>
+                <td>@k.Cena</td>
+                <td>@k.Zanr.NazivZanra</td>
+                <td><a href="/Knjizara/Obrisi?id=@k.Id">Trajno obrisi</a></td>
+            </tr>
         }
     </table>
     <div class="sortiranje">

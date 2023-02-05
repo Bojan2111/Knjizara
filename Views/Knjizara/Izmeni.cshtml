@@ -1,51 +1,42 @@
-﻿@model Knjizara.ViewModels.KnjigaZanrViewModel
+﻿
 @{
     Layout = "_Layout";
 }
-<div>
-    <form action="Izmeni" method="post">
-        <input id="Knjiga_Id" name="Knjiga.Id" type="hidden" value="@Model.Knjiga.Id">
-        <table class="table">
-            <tr>
-                <th colspan='2'>
-                    Izmeni knjigu
-                </th>
-            </tr>
-            <tr>
-                <td>Naslov:</td>
-                <td>
-                    @Html.TextBoxFor(m => m.Knjiga.Naziv)
-                </td>
-            </tr>
-            <tr>
-                <td>Cena:</td>
-                <td>
-                    @Html.TextBoxFor(m => m.Knjiga.Cena)
-                </td>
-            </tr>
-            <tr>
-                <td>Zanr:</td>
-                <td>
-                    <select class="form-control" name='idZanra'>
-                        @foreach (ZanrModel z in Model.Zanrovi)
+@model Knjizara.ViewModels.KnjigaZanrViewModel
+
+<form action="/Knjizara/Izmeni" method="post">
+    <input id="Knjiga_Id" name="Knjiga.Id" type="hidden" value="@Model.Knjiga.Id">
+    <table class="table">
+        <tr>
+            <th>Naziv:</th>
+            <td><input class="form-control" name="knjiga.Naziv" value="@Model.Knjiga.Naziv" /></td>
+        </tr>
+        <tr>
+            <th>Cena:</th>
+            <td><input class="form-control" name="knjiga.Cena" value="@Model.Knjiga.Cena" /></td>
+        </tr>
+        <tr>
+            <th>Zanr:</th>
+            <td>
+                <select class="form-control" name="knjiga.Zanr.Id">
+                    @foreach (var zanr in Model.Zanrovi)
+                    {
+                        if (Model.Knjiga.Zanr.Id == zanr.Id)
                         {
-                            if (z.Id == Model.Knjiga.Zanr.Id)
-                            {
-                                <option value="@z.Id" selected>@z.NazivZanra</option>
-                            }
-                            else
-                            {
-                                <option value="@z.Id">@z.NazivZanra</option>
-                            }
+                            <option value="@zanr.Id" selected>@zanr.NazivZanra</option>
                         }
-                    </select>
-                </td>
-            </tr>
-            <tr>
-                <td colspan='2' align='right'>
-                    <input type='submit' value='Izmeni' />
-                </td>
-            </tr>
-        </table>
-    </form>
-</div>
+                        else
+                        {
+                            <option value="@zanr.Id">@zanr.NazivZanra</option>
+                        }
+
+                    }
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2"><input class="form-control" type="submit" value="Izmeni" /><br /><br /></td>
+        </tr>
+    </table>
+</form>
+<div class='mt-4 btn btn-primary'><a class="nedekorisan" href='/Knjizara/Index'>Pocetna stranica</a></div>

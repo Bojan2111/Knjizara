@@ -1,133 +1,100 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Knjizara.Models;
+using Knjizara.ViewModels;
+using Knjizara.Repository;
+using Knjizara.Repository.Interfaces;
 using System.Runtime.CompilerServices;
 using System;
-using Knjizara.ViewModels;
 using System.Reflection;
 
 namespace Knjizara.Controllers
 {
     public class KnjizaraController : Controller
     {
-        public static KnjizaraModel knjizara;
-
-        static KnjizaraController()
+        public IKnjigaRepository KnjigaRepository;
+        public IZanrRepository ZanrRepository;
+        public KnjizaraController(IConfiguration Configuration)
         {
-            knjizara = new KnjizaraModel(1, "Eci Peci Pec");
-            knjizara.Zanrovi = new List<ZanrModel>() { 
-                new ZanrModel(1, "Sci-Fi"),
-                new ZanrModel(2, "Komedija"),
-                new ZanrModel(3, "Horor")
-            };
-            knjizara.BrojacZanrova = 4;
+            KnjigaRepository = new KnjigaRepository(Configuration);
+            ZanrRepository = new ZanrRepository(Configuration);
         }
 
         public IActionResult Index()
         {
-            KnjigaZanrViewModel kzvm = new KnjigaZanrViewModel
-            {
-                Knjiga = new KnjigaModel(),
-                Zanrovi = knjizara.Zanrovi
-            };
-            return View(kzvm);
+            return View(KnjigaRepository.GetAll());
+        }
+
+        public IActionResult Izmeni(int id)
+        {
+            KnjigaZanrViewModel viewmodel = new KnjigaZanrViewModel();
+            viewmodel.Knjiga = KnjigaRepository.GetOne(id);
+            viewmodel.Zanrovi = ZanrRepository.GetAll();
+            return View(viewmodel);
+        }
+
+        [HttpPost]
+        public IActionResult Izmeni(KnjigaModel knjiga)
+        {
+            KnjigaRepository.Update(knjiga);
+            return RedirectToAction("Index");
+        }
+
+        public IActionResult Dodaj()
+        {
+            KnjigaZanrViewModel vm = new KnjigaZanrViewModel();
+            vm.Knjiga = new KnjigaModel();
+            vm.Zanrovi = ZanrRepository.GetAll();
+            return View(vm);
         }
 
         [HttpPost]
         public IActionResult Dodaj(KnjigaModel knjiga, int idZanra)
         {
-            foreach (KnjigaModel k in knjizara.Knjige)
+            if (KnjigaRepository.CheckIfKnjigaExists(knjiga.Naziv))
             {
-                if (k.Naziv == knjiga.Naziv && !k.Izbrisana)
-                {
-                    TempData["Poruka"] = $"Knjiga '{knjiga.Naziv}' vec postoji";
-                    return RedirectToAction("Index");
-                }
+                TempData["Poruka"] = $"Knjiga '{knjiga.Naziv}' vec postoji";
+                KnjigaZanrViewModel viewmodel = new KnjigaZanrViewModel();
+                viewmodel.Knjiga = knjiga;
+                viewmodel.Zanrovi = ZanrRepository.GetAll();
+                return View(viewmodel);
             }
-            knjiga.Zanr = knjizara.Zanrovi.FirstOrDefault(x => x.Id.Equals(idZanra));
-
-            knjiga.Id = knjizara.BrojacKnjiga;
-            knjizara.BrojacKnjiga += 1;
-            knjizara.Knjige.Add(knjiga);
-            return RedirectToAction("IzlistajSve");
+            knjiga.Zanr = ZanrRepository.GetOne(idZanra);
+            KnjigaRepository.Create(knjiga);
+            return RedirectToAction("Index");
         }
 
-        public IActionResult IzlistajSve()
-        {
-            return View(knjizara.Knjige);
-        }
         public IActionResult IzlistajObrisane()
         {
-            return View(knjizara.Knjige);
+            List<KnjigaModel> model = KnjigaRepository.GetAllDeleted();
+            return View(model);
         }
-
+        public IActionResult Ukloni(int id)
+        {
+            KnjigaRepository.Archive(id);
+            return RedirectToAction("Index");
+        }
         public IActionResult Obrisi(int id)
         {
-            foreach (KnjigaModel k in knjizara.Knjige)
-            {
-                if (k.Id == id)
-                {
-                    k.Izbrisana = true;
-                    break;
-                }
-            }
-            return RedirectToAction("IzlistajSve");
+            KnjigaRepository.Delete(id);
+            return RedirectToAction("IzlistajObrisane");
         }
-
         public IActionResult Sortiraj(int nacin, string tipListe)
         {
-            List<KnjigaModel> sortiraneKnjige = new List<KnjigaModel>();
+            int deleted = (tipListe == "sve") ? 0 : 1;
+            string field = (nacin == 1 || nacin == 2) ? "naziv_knjige" : "cena";
+            string sorting = (nacin == 2 || nacin == 4) ? "desc" : "asc";
+
+            List<KnjigaModel> sortiraneKnjige = KnjigaRepository.Sort(deleted, field, sorting);
 
             if (tipListe == "sve")
             {
-                sortiraneKnjige = knjizara.Knjige.FindAll(k => k.Izbrisana == false);
-            }
-            else
-            {
-                sortiraneKnjige = knjizara.Knjige.FindAll(k => k.Izbrisana == true);
-            }
-
-            switch (nacin)
-            {
-                case 1:
-                    sortiraneKnjige = sortiraneKnjige.OrderBy(k => k.Naziv).ToList();
-                    break;
-                case 2:
-                    sortiraneKnjige = sortiraneKnjige.OrderByDescending(k => k.Naziv).ToList();
-                    break;
-                case 3:
-                    sortiraneKnjige = sortiraneKnjige.OrderBy(k => k.Cena).ToList();
-                    break;
-                case 4:
-                    sortiraneKnjige = sortiraneKnjige.OrderByDescending(k => k.Cena).ToList();
-                    break;
-            }
-
-            if (tipListe == "sve")
-            {
-                return View("IzlistajSve", sortiraneKnjige);
+                return View("Index", sortiraneKnjige);
             }
             else
             {
                 return View("IzlistajObrisane", sortiraneKnjige);
             }
-        }
-        public IActionResult Izmeni(int id)
-        {
-            KnjigaZanrViewModel kzvm = new KnjigaZanrViewModel
-            {
-                Knjiga = knjizara.Knjige.FirstOrDefault(k => k.Id == id),
-                Zanrovi = knjizara.Zanrovi
-            };
-            return View(kzvm);
-        }
-
-        [HttpPost]
-        public IActionResult Izmeni(KnjigaModel knjiga, int idZanra)
-        {
-            int idx = knjizara.Knjige.FindIndex(x => x.Id == knjiga.Id);
-            knjiga.Zanr = knjizara.Zanrovi.FirstOrDefault(y => y.Id == idZanra);
-            knjizara.Knjige[idx] = knjiga;
-            return RedirectToAction("IzlistajSve");
         }
     }
 }

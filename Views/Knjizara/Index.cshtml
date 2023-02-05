@@ -1,67 +1,52 @@
-﻿
-@model Knjizara.ViewModels.KnjigaZanrViewModel
+﻿@model List<KnjigaModel>
 @{
-    Layout = "_Layout";
+    Layout = "_Layout"; 
 }
-
 <div>
-    <h1>Knjizara - Naslovna strana</h1>
+    <h1>Prikaz svih knjiga</h1>
     <hr>
-    <form action='/Knjizara/Dodaj' method='post'>
-        <table class="table">
+    <table class="table table-hover">
+        <tr>
+            <th>Id</th>
+            <th>Naziv</th>
+            <th>Cena</th>
+            <th>Zanr</th>
+            <th></th>
+        </tr>
+        @foreach (var k in Model)
+        {
             <tr>
-                <th colspan='2'>Dodaj novu knjigu</th>
+                <td>@k.Id</td>
+                <td>@k.Naziv</td>
+                <td>@k.Cena</td>
+                <td>@k.Zanr.NazivZanra</td>
+                <td><a href="/Knjizara/Ukloni?id=@k.Id">Ukloni</a></td>
+                <td><a href="/Knjizara/Izmeni?id=@k.Id">Izmeni</a></td>
             </tr>
-            <tr>
-                <td>Naziv:</td>
-                <td>
-                    <input id="naziv" class="form-control" type='text' name='naziv' required>
-                    @if (TempData["Poruka"] != null)
-                    {
-                        <p class="alert-danger">@TempData["Poruka"]</p>
-                    }
-                </td>
-            </tr>
-            <tr>
-                <td>Cena:</td>
-                <td><input class="form-control" type='number' placeholder='0.00' name='cena' min='0' step='0.01' pattern='^\d+(?:\.\d{1,2})?$'></td>
-            </tr>
-            <tr>
-                <td>Zanr:</td>
-                <td>
-                    <select class="form-select" name='idZanra'>
-                        @foreach (ZanrModel z in Model.Zanrovi)
-                        {
-                            <option value="@z.Id">@z.NazivZanra</option>
-                        }
-                    </select>
-                </td>
-            </tr>
-            <tr style='text-align: center;'>
-                <td colspan='2'><input type='submit' name='Dodaj' value='Dodaj' class="btn btn-success"></td>
-            </tr>
-        </table>
-    </form>
-    <div class='linkovi'>
-        <div class="btn btn-info"><a class="nedekorisan" href='/Knjizara/IzlistajSve'>Prikaz svih knjiga</a></div>
-        <div class="btn btn-info"><a class="nedekorisan" href='/Knjizara/IzlistajObrisane'>Prikaz obrisanih knjiga</a></div>
-    </div>
-    <div class='zanr-linkovi'>
-        <div class="btn btn-dark"><a class="nedekorisan" href='/Zanr/Index'>Dodaj novi zanr</a></div>
-        <div class="btn btn-dark"><a class="nedekorisan" href='/Zanr/IzlistajSve'>Prikaz zanrova</a></div>
-    </div>
-    <!--  Namerno zakomentarisano kao licni podsetnik  -->
-    <!--script type="text/javascript">
-        function proveraNaslova() {
-            let knjige = @Html.Raw(Json.Serialize(Model));
-            let naslov = document.getElementById("naziv").value;
-            for (var i = 0; i < knjige.length; i++) {
-                if (knjige[i].naziv === naslov && !knjige[i].izbrisana) {
-                    alert("Knjiga vec postoji");
-                    return false;
-                }
-            }
-            return true;
         }
-    </script-->
+    </table>
+    <div class="sortiranje">
+        <form action="/Knjizara/Sortiraj" method="post">
+            <input type="hidden" name="tipListe" value="sve" />
+            <select class="form-select" name="nacin">
+                <option value="1">Po naslovu - rastuce</option>
+                <option value="2">Po naslovu - opadajuce</option>
+                <option value="3">Po ceni - rastuce</option>
+                <option value="4">Po ceni - opadajuce</option>
+            </select><br />
+            <div class="text-center">
+                <input type="submit" value="Sortiraj" class="btn btn-outline-primary" />
+            </div>
+        </form>
+    </div>
+    <div class='mt-4 linkovi'>
+        <div class="btn-group-vertical">
+            <div class="btn btn-primary"><a class="nedekorisan" href="/Knjizara/Dodaj">Dodaj Novu Knjigu</a></div>
+            <div class="btn btn-primary"><a class="nedekorisan" href='/Knjizara/IzlistajObrisane'>Prikaz obrisanih knjiga</a></div>
+        </div>
+        <div class="btn-group-vertical">
+            <div class="btn btn-secondary"><a class="nedekorisan" href='/Zanr/Index'>Dodaj novi zanr</a></div>
+            <div class="btn btn-secondary"><a class="nedekorisan" href='/Zanr/IzlistajSve'>Prikaz zanrova</a></div>
+        </div>
+    </div>
 </div>

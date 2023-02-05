@@ -36,27 +36,10 @@ h1 {
     justify-content: space-around;
 }
 
-#fade-to-transparent {
-    background-color: white;
-    position: relative;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    padding: 1rem;
-    width: 30rem;
-    height: 10rem;
-    text-align: center;
-    animation: fadeOut 5s forwards;
-}
-
-@keyframes fadeOut {
-    from {
-        opacity: 1;
-    }
-
-    to {
-        opacity: 0;
-    }
+.poruka {
+    color: red;
+    font-size: 12px;
+    font-weight: bold;
 }
 
 .unos {

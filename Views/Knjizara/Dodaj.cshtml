@@ -1,0 +1,45 @@
+﻿
+@model Knjizara.ViewModels.KnjigaZanrViewModel
+@{
+    Layout = "_Layout";
+}
+
+<div>
+    <h1>Knjizara - Naslovna strana</h1>
+    <hr>
+    <form action='/Knjizara/Dodaj' method='post'>
+        <table class="table">
+            <tr>
+                <th colspan='2'>Dodaj novu knjigu</th>
+            </tr>
+            <tr>
+                <td>Naziv:</td>
+                <td>
+                    <input id="naziv" class="form-control" type='text' name='naziv' value="@Model.Knjiga.Naziv" required>
+                    @if (TempData["Poruka"] != null)
+                    {
+                        <p class="poruka">@TempData["Poruka"]</p>
+                    }
+                </td>
+            </tr>
+            <tr>
+                <td>Cena:</td>
+                <td><input class="form-control" type='number' placeholder='0.00' name='cena' min='0' step='0.01' pattern='^\d+(?:\.\d{1,2})?$'></td>
+            </tr>
+            <tr>
+                <td>Zanr:</td>
+                <td>
+                    <select class="form-select" name='idZanra'>
+                        @foreach (ZanrModel z in Model.Zanrovi)
+                        {
+                            <option value="@z.Id">@z.NazivZanra</option>
+                        }
+                    </select>
+                </td>
+            </tr>
+            <tr style='text-align: center;'>
+                <td colspan='2'><input type='submit' name='Dodaj' value='Dodaj' class="btn btn-success"></td>
+            </tr>
+        </table>
+    </form>
+</div>
