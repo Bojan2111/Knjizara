@@ -11,14 +11,14 @@
             <th>Naziv</th>
             <th>Cena</th>
             <th>Zanr</th>
-            <th></th>
+            <th colspan="2"></th>
         </tr>
         @foreach (var k in Model)
         {
             <tr>
                 <td>@k.Id</td>
                 <td>@k.Naziv</td>
-                <td>@k.Cena</td>
+                <td>@String.Format("{0:0.00}", k.Cena)</td>
                 <td>@k.Zanr.NazivZanra</td>
                 <td><a href="/Knjizara/Ukloni?id=@k.Id">Ukloni</a></td>
                 <td><a href="/Knjizara/Izmeni?id=@k.Id">Izmeni</a></td>
@@ -45,8 +45,8 @@
             <div class="btn btn-primary"><a class="nedekorisan" href='/Knjizara/IzlistajObrisane'>Prikaz obrisanih knjiga</a></div>
         </div>
         <div class="btn-group-vertical">
-            <div class="btn btn-secondary"><a class="nedekorisan" href='/Zanr/Index'>Dodaj novi zanr</a></div>
-            <div class="btn btn-secondary"><a class="nedekorisan" href='/Zanr/IzlistajSve'>Prikaz zanrova</a></div>
+            <div class="btn btn-secondary"><a class="nedekorisan" href='/Zanr/Dodaj'>Dodaj novi zanr</a></div>
+            <div class="btn btn-secondary"><a class="nedekorisan" href='/Zanr/Index'>Prikaz zanrova</a></div>
         </div>
     </div>
 </div>

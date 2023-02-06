@@ -1,0 +1,29 @@
+﻿@model ZanrModel
+@{
+    Layout = "_Layout";
+}
+<div>
+    <h1>Dodaj Zanr</h1>
+    <hr>
+    <form action='/Zanr/Dodaj' method='post'>
+        <table class="table">
+            <tr>
+                <th colspan='2'>Dodaj novi zanr</th>
+            </tr>
+            <tr>
+                <td>Naziv zanra:</td>
+                <td>
+                    <input id="nazivZanra" class="form-control" type='text' name='nazivZanra' required>
+                </td>
+                <td>@Html.ValidationMessageFor(m => m.NazivZanra)</td>
+            </tr>
+            <tr style='text-align: center;'>
+                <td colspan='2'><input type='submit' name='Dodaj' value='Dodaj' class="btn btn-success"></td>
+            </tr>
+        </table>
+    </form>
+    <div class='linkovi'>
+        <div class="btn btn-info"><a class="nedekorisan" href='/Zanr/Index'>Prikaz svih zanrova</a></div>
+        <div class="btn btn-info"><a class="nedekorisan" href='/Knjizara/Index'>Povratak na pocetnu stranicu</a></div>
+    </div>
+</div>

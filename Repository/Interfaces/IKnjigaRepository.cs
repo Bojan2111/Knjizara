@@ -9,6 +9,7 @@ namespace Knjizara.Repository.Interfaces
         public KnjigaModel GetOne(int id);
         public void Delete(int id);
         public void Archive(int id);
+        public void Undelete(int id);
         public void Update(KnjigaModel knjiga);
         public void Create(KnjigaModel knjiga);
         public bool CheckIfKnjigaExists(string nazivKnjige);

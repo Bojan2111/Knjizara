@@ -51,16 +51,26 @@ namespace Knjizara.Controllers
         [HttpPost]
         public IActionResult Dodaj(KnjigaModel knjiga, int idZanra)
         {
+            ModelState.Remove("Zanr");
+
+            KnjigaZanrViewModel vm = new KnjigaZanrViewModel();
+            vm.Knjiga = knjiga;
+            vm.Zanrovi = ZanrRepository.GetAll();
+
             if (KnjigaRepository.CheckIfKnjigaExists(knjiga.Naziv))
             {
                 TempData["Poruka"] = $"Knjiga '{knjiga.Naziv}' vec postoji";
-                KnjigaZanrViewModel viewmodel = new KnjigaZanrViewModel();
-                viewmodel.Knjiga = knjiga;
-                viewmodel.Zanrovi = ZanrRepository.GetAll();
-                return View(viewmodel);
+                return View(vm);
             }
+
+            if (!ModelState.IsValid)
+            {
+                return View(vm);
+            }
+
             knjiga.Zanr = ZanrRepository.GetOne(idZanra);
             KnjigaRepository.Create(knjiga);
+            //TempData["Poruka"] = $"Knjiga '{knjiga.Naziv}' uspesno dodata";
             return RedirectToAction("Index");
         }
 
@@ -77,6 +87,11 @@ namespace Knjizara.Controllers
         public IActionResult Obrisi(int id)
         {
             KnjigaRepository.Delete(id);
+            return RedirectToAction("IzlistajObrisane");
+        }
+        public IActionResult Vrati(int id)
+        {
+            KnjigaRepository.Undelete(id);
             return RedirectToAction("IzlistajObrisane");
         }
         public IActionResult Sortiraj(int nacin, string tipListe)

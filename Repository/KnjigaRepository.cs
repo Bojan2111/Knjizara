@@ -70,6 +70,24 @@ namespace Knjizara.Repository
 
             connection.Close();
         }
+        public void Undelete(int id)
+        {
+            string connectionString = this.Configuration.GetConnectionString("Knjizara");
+            SqlConnection connection = new SqlConnection(connectionString);
+
+            // Povratak stavke u listu obrtanjem virtuelnog brisanja
+            string query = "update knjige set izbrisana=0 where id_knjige=@Id";
+
+            connection.Open();
+
+            SqlCommand command = connection.CreateCommand();
+            command.CommandText = query;
+            command.Parameters.AddWithValue("Id", id);
+
+            command.ExecuteNonQuery();
+
+            connection.Close();
+        }
 
         public void Delete(int id)
         {

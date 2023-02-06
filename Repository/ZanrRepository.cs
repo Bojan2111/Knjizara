@@ -20,7 +20,19 @@ namespace Knjizara.Repository
 
         public void Create(ZanrModel zanr)
         {
-            throw new NotImplementedException();
+            string connectionString = this.Configuration.GetConnectionString("Knjizara");
+            SqlConnection connection = new SqlConnection(connectionString);
+            string query = "insert into zanrovi(naziv_zanra) values (@Naziv)";
+
+            connection.Open();
+
+            SqlCommand command = connection.CreateCommand();
+            command.CommandText = query;
+            command.Parameters.AddWithValue("Naziv", zanr.NazivZanra);
+
+            command.ExecuteNonQuery();
+
+            connection.Close();
         }
 
         public void Delete(int id)
@@ -91,7 +103,20 @@ namespace Knjizara.Repository
 
         public void Update(ZanrModel zanr)
         {
-            throw new NotImplementedException();
+            string connectionString = this.Configuration.GetConnectionString("Knjizara");
+            SqlConnection connection = new SqlConnection(connectionString);
+            string query = "update zanrovi set naziv_zanra=@Naziv where zanrovi.id_zanra=@Id;";
+
+            connection.Open();
+
+            SqlCommand command = connection.CreateCommand();
+            command.CommandText = query;
+            command.Parameters.AddWithValue("Id", zanr.Id);
+            command.Parameters.AddWithValue("Naziv", zanr.NazivZanra);
+
+            command.ExecuteNonQuery();
+
+            connection.Close();
         }
     }
 }

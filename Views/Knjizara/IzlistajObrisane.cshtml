@@ -11,15 +11,16 @@
             <th>Naziv</th>
             <th>Cena</th>
             <th>Zanr</th>
-            <th></th>
+            <th colspan="2"></th>
         </tr>
         @foreach (var k in Model)
         {
             <tr>
                 <td>@k.Id</td>
                 <td>@k.Naziv</td>
-                <td>@k.Cena</td>
+                <td>@String.Format("{0:0.00}", k.Cena)</td>
                 <td>@k.Zanr.NazivZanra</td>
+                <td><a href="/Knjizara/Vrati?id=@k.Id">Vrati u listu</a></td>
                 <td><a href="/Knjizara/Obrisi?id=@k.Id">Trajno obrisi</a></td>
             </tr>
         }
