@@ -13,9 +13,9 @@
             <tr>
                 <td>Naziv zanra:</td>
                 <td>
-                    <input id="nazivZanra" class="form-control" type='text' name='nazivZanra' required>
+                    <input id="nazivZanra" class="form-control" type='text' name='nazivZanra'>
+                    <p class="poruka">@Html.ValidationMessageFor(m => m.NazivZanra)</p>
                 </td>
-                <td>@Html.ValidationMessageFor(m => m.NazivZanra)</td>
             </tr>
             <tr style='text-align: center;'>
                 <td colspan='2'><input type='submit' name='Dodaj' value='Dodaj' class="btn btn-success"></td>

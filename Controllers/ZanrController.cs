@@ -19,9 +19,9 @@ namespace Knjizara.Controllers
             return View(ZanrRepository.GetAll());
         }
 
-        public IActionResult Izmeni(int id)
+        public IActionResult Izmeni(int idZanra)
         {
-            ZanrModel zanr = ZanrRepository.GetOne(id);
+            ZanrModel zanr = ZanrRepository.GetOne(idZanra);
             return View(zanr);
         }
 

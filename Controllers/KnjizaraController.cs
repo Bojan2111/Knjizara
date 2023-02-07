@@ -51,7 +51,7 @@ namespace Knjizara.Controllers
         [HttpPost]
         public IActionResult Dodaj(KnjigaModel knjiga, int idZanra)
         {
-            ModelState.Remove("Zanr");
+            ModelState.Remove("Knjiga.Zanr");
 
             KnjigaZanrViewModel vm = new KnjigaZanrViewModel();
             vm.Knjiga = knjiga;
@@ -70,7 +70,6 @@ namespace Knjizara.Controllers
 
             knjiga.Zanr = ZanrRepository.GetOne(idZanra);
             KnjigaRepository.Create(knjiga);
-            //TempData["Poruka"] = $"Knjiga '{knjiga.Naziv}' uspesno dodata";
             return RedirectToAction("Index");
         }
 

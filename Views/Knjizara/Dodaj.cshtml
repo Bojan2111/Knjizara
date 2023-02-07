@@ -3,30 +3,32 @@
 @{
     Layout = "_Layout";
 }
-@Html.ValidationSummary()
 <div>
     <h1>Knjizara - Naslovna strana</h1>
     <hr>
     <form action='/Knjizara/Dodaj' method='post'>
         <table class="table">
             <tr>
-                <th colspan='3'>Dodaj novu knjigu</th>
+                <th colspan='2'>Dodaj novu knjigu</th>
             </tr>
             <tr>
                 <td>Naziv:</td>
                 <td>
-                    <input id="naziv" class="form-control" type='text' name='naziv' value="@Model.Knjiga.Naziv" required>
+                    <input id="naziv" class="form-control" type='text' name='Knjiga.Naziv' value="@Model.Knjiga.Naziv">
                     @if (TempData["Poruka"] != null)
                     {
                         <p class="poruka">@TempData["Poruka"]</p>
                     }
+                    <p class="poruka">@Html.ValidationMessageFor(m => m.Knjiga.Naziv)</p>
                 </td>
-                <td>@Html.ValidationMessageFor(m => m.Knjiga.Naziv)</td>
             </tr>
             <tr>
                 <td>Cena:</td>
-                <td><input class="form-control" type='number' name='cena' min='0' step='0.01' pattern='^\d+(?:\.\d{1,2})?$'></td>
-                <td>@Html.ValidationMessageFor(m => m.Knjiga.Cena)</td>
+                <td>
+                    <input class="form-control" type='number' name='Knjiga.Cena' min='0' step='0.01' value="0">
+                    <p class="poruka">@Html.ValidationMessageFor(m => m.Knjiga.Cena)</p>
+                </td>
+                
             </tr>
             <tr>
                 <td>Zanr:</td>
