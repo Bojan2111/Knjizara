@@ -3,22 +3,27 @@
     Layout = "_Layout";
 }
 @model Knjizara.ViewModels.KnjigaZanrViewModel
-
-<form action="/Knjizara/Izmeni" method="post">
+@Html.ValidationSummary()
+<form action="/Knjizara/Izmeni" method="post" onsubmit="return knjigaValidacija()">
     <input id="Knjiga_Id" name="Knjiga.Id" type="hidden" value="@Model.Knjiga.Id">
     <table class="table">
         <tr>
             <th>Naziv:</th>
             <td>
-                <input class="form-control" name="knjiga.Naziv" value="@Model.Knjiga.Naziv" />
+                <input id="naziv" class="form-control" name="Knjiga.Naziv" value="@Model.Knjiga.Naziv" />
+                @if (TempData["Poruka"] != null)
+                {
+                    <p class="poruka">@TempData["Poruka"]</p>
+                }
+                <p class="poruka"><span id="NazivGreska"></span>@Html.ValidationMessageFor(m => m.Knjiga.Naziv)</p>
             </td>
         </tr>
         <tr>
             <th>Cena:</th>
             <td>
-                <input class="form-control" name="knjiga.Cena" value="@Model.Knjiga.Cena" />
+                <input id="cena" class="form-control" name="Knjiga.Cena" value="@Model.Knjiga.Cena" />
+                <p class="poruka"><span id="CenaGreska"></span>@Html.ValidationMessageFor(m => m.Knjiga.Cena)</p>
             </td>
-            
         </tr>
         <tr>
             <th>Zanr:</th>
@@ -45,3 +50,4 @@
     </table>
 </form>
 <div class='mt-4 btn btn-primary'><a class="nedekorisan" href='/Knjizara/Index'>Pocetna stranica</a></div>
+<script src="~/js/clientvalidation.js"></script>

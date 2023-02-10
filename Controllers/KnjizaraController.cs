@@ -36,6 +36,22 @@ namespace Knjizara.Controllers
         [HttpPost]
         public IActionResult Izmeni(KnjigaModel knjiga)
         {
+            ModelState.Remove("Knjiga.Zanr.NazivZanra");
+
+            KnjigaZanrViewModel vm = new KnjigaZanrViewModel();
+            vm.Knjiga = knjiga;
+            vm.Zanrovi = ZanrRepository.GetAll();
+
+            if (KnjigaRepository.CheckIfKnjigaExists(knjiga.Naziv))
+            {
+                TempData["Poruka"] = $"Knjiga '{knjiga.Naziv}' vec postoji";
+                return View(vm);
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return View(vm);
+            }
             KnjigaRepository.Update(knjiga);
             return RedirectToAction("Index");
         }

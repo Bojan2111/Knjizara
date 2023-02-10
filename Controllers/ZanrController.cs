@@ -28,6 +28,11 @@ namespace Knjizara.Controllers
         [HttpPost]
         public IActionResult Izmeni(ZanrModel zanr)
         {
+            if (!ModelState.IsValid)
+            {
+                ZanrModel z = zanr;
+                return View(z);
+            }
             ZanrRepository.Update(zanr);
             return RedirectToAction("Index");
         }

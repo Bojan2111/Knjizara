@@ -5,7 +5,7 @@
 <div>
     <h1>Dodaj Zanr</h1>
     <hr>
-    <form action='/Zanr/Dodaj' method='post'>
+    <form action='/Zanr/Dodaj' method='post' onsubmit="return zanrValidacija();">
         <table class="table">
             <tr>
                 <th colspan='2'>Dodaj novi zanr</th>
@@ -14,7 +14,7 @@
                 <td>Naziv zanra:</td>
                 <td>
                     <input id="nazivZanra" class="form-control" type='text' name='nazivZanra'>
-                    <p class="poruka">@Html.ValidationMessageFor(m => m.NazivZanra)</p>
+                    <p class="poruka"><span id="ZanrGreska"></span>@Html.ValidationMessageFor(m => m.NazivZanra)</p>
                 </td>
             </tr>
             <tr style='text-align: center;'>
@@ -27,3 +27,4 @@
         <div class="btn btn-info"><a class="nedekorisan" href='/Knjizara/Index'>Povratak na pocetnu stranicu</a></div>
     </div>
 </div>
+<script src="~/js/clientvalidation.js"></script>

@@ -5,7 +5,7 @@
 <div>
     <h1>Zanrovi - Naslovna strana</h1>
     <hr>
-    <form action='/Zanr/Izmeni' method='post'>
+    <form action='/Zanr/Izmeni' method='post' onsubmit="return zanrValidacija()">
         @Html.TextBoxFor(m => m.Id, new { @type = "hidden" })
         <table class="table">
             <tr>
@@ -14,7 +14,8 @@
             <tr>
                 <td>Naziv zanra:</td>
                 <td>
-                    <input id="NazivZanra" class="form-control" type='text' name='NazivZanra' value="@Model.NazivZanra">
+                    <input id="nazivZanra" class="form-control" type='text' name='NazivZanra' value="@Model.NazivZanra">
+                    <p class="poruka"><span id="ZanrGreska"></span>@Html.ValidationMessageFor(m => m.NazivZanra)</p>
                 </td>
             </tr>
             <tr style='text-align: center;'>
@@ -27,3 +28,4 @@
         <div class="btn btn-info"><a class="nedekorisan" href='/Knjizara/Index'>Povratak na pocetnu stranicu</a></div>
     </div>
 </div>
+<script src="~/js/clientvalidation.js"></script>

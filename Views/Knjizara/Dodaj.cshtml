@@ -6,7 +6,7 @@
 <div>
     <h1>Knjizara - Naslovna strana</h1>
     <hr>
-    <form action='/Knjizara/Dodaj' method='post'>
+    <form action='/Knjizara/Dodaj' method='post' onsubmit="return knjigaValidacija();">
         <table class="table">
             <tr>
                 <th colspan='2'>Dodaj novu knjigu</th>
@@ -19,14 +19,14 @@
                     {
                         <p class="poruka">@TempData["Poruka"]</p>
                     }
-                    <p class="poruka">@Html.ValidationMessageFor(m => m.Knjiga.Naziv)</p>
+                    <p class="poruka"><span id="NazivGreska"></span>@Html.ValidationMessageFor(m => m.Knjiga.Naziv)</p>
                 </td>
             </tr>
             <tr>
                 <td>Cena:</td>
                 <td>
-                    <input class="form-control" type='number' name='Knjiga.Cena' min='0' step='0.01' value="0">
-                    <p class="poruka">@Html.ValidationMessageFor(m => m.Knjiga.Cena)</p>
+                    <input id="cena" class="form-control" type='number' name='Knjiga.Cena' min='0' step='0.01' value="0">
+                    <p class="poruka"><span id="CenaGreska"></span>@Html.ValidationMessageFor(m => m.Knjiga.Cena)</p>
                 </td>
                 
             </tr>
@@ -47,3 +47,4 @@
         </table>
     </form>
 </div>
+<script src="~/js/clientvalidation.js"></script>
